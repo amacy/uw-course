@@ -1,37 +1,29 @@
 (* 1 *)
-fun is_older (date1 : int list, date2 : int list) =
-    if hd date1 > hd date2
-    then false
-    else if hd date1 < hd date2
+fun is_older (date1 : int * int * int, date2 : int * int * int) =
+    if #1 date1 < #1 date2
     then true
-    else is_older (tl date1, tl date2)
+    else if #1 date1 = #1 date2 andalso #2 date1 < #2 date2
+    then true
+    else if #1 date1 = #1 date2 andalso #2 date1 = #2 date2 andalso #3 date1 < #3 date2
+    then true
+    else false
 
-
-(*
-2. Write a function number_in_month that takes a list of dates and a month (i.e., an int) and returns
-how many dates in the list are in the given month.
-*)
 (* 2 *)
-fun number_in_month (dates : int list list, month : int) =
-    let 
-	val dates_in_month = []
-	fun sort_dates () =
-	    if hd dates = []
-	    then dates_in_month
-	    else
-		if hd (tl (hd dates)) = month
-		then hd dates :: dates_in_month (* recursion ends @ first month match *)
-		else number_in_month(tl dates, month)
-    in
-	sort_dates()
-    end
-
-
+fun number_in_month (dates : (int * int * int) list, month : int) =
+    if dates = []
+    then 0
+    else if #2 (hd dates) = month
+    then 1 + number_in_month(tl dates, month)
+    else number_in_month(tl dates, month)
 
 (*
 3. Write a function number_in_months that takes a list of dates and a list of months (i.e., an int list)
 and returns the number of dates in the list of dates that are in any of the months in the list of months.
 Assume the list of months has no number repeated. Hint: Use your answer to the previous problem.
+
+fun number_in_months (dates : int list list, months : int list) = *)
+
+(*
 4. Write a function dates_in_month that takes a list of dates and a month (i.e., an int) and returns a
 list holding the dates from the argument list of dates that are in the month. The returned list should
 contain dates in the order they were originally given.
