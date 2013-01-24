@@ -59,24 +59,56 @@ fun number_before_reaching_sum (sum : int, numbers : int list) =
 (* 9 *)
 fun what_month (day_of_year : int) =
     let
-	val days_in_each_month_list = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+	val days_in_each_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     in
-	number_before_reaching_sum(day_of_year, days_in_each_month_list) + 1
+	number_before_reaching_sum(day_of_year, days_in_each_month) + 1
     end
 
-(* 10. Write a function month_range that takes two days of the year day1 and day2 and returns an int list
-[m1,m2,...,mn] where m1 is the month of day1, m2 is the month of day1+1, ..., and mn is the month
-of day day2. Note the result will have length day2 - day1 + 1 or length 0 if day1>day2. *)
+(* 10 *)
+fun month_range (day1 : int, day2 : int) =
+    let 
+	fun count (from : int, to : int) =
+	    if from = to
+	    then to :: []
+	    else from :: count(from + 1, to)
+    in
+	if day1 > day2
+	then []
+	else count(what_month(day1), what_month(day2))
+    end
 
-(*
-11. Write a function oldest that takes a list of dates and evaluates to an (int*int*int) option. It
-evaluates to NONE if the list has no dates and SOME d if the date d is the oldest date in the list. 
-12. Challenge Problem: Write functions number_in_months_challenge and dates_in_months_challenge
+(* 11 *)
+fun oldest (dates : (int * int * int) list) =
+    if null dates
+    then NONE
+    else
+	let 
+	    fun is_oldest (dates : (int * int * int) list) =
+		if null (tl dates)
+		then hd dates
+		else if is_older(hd dates, hd (tl dates))
+		then is_oldest(hd dates :: tl (tl dates))
+		else is_oldest(tl dates)
+	in
+	    SOME (is_oldest(dates))
+	end
+
+(* 12. Challenge Problem: Write functions number_in_months_challenge and dates_in_months_challenge
 that are like your solutions to problems 3 and 5 except having a month in the second argument multiple
-times has no more effect than having it once. (Hint: Remove duplicates, then use previous work.)
-13. Challenge Problem: Write a function reasonable_date that takes a date and determines if it
+times has no more effect than having it once. (Hint: Remove duplicates, then use previous work.) *)
+(*
+fun number_in_months_challenge (dates : (int * int * int) list, months : int list) =
+    if null months
+    then 0
+    else number_in_month_challenge(dates, hd months) + number_in_months(dates, tl months)
+
+fun dates_in_months_challenge (dates : (int * int * int) list, months : int list) =
+    if null months
+    then []
+    else dates_in_month_challenge(dates, hd months) @ dates_in_months(dates, tl months)
+*)
+(* 13. Challenge Problem: Write a function reasonable_date that takes a date and determines if it
 describes a real date in the common era. A \real date" has a positive year (year 0 did not exist), a
 month between 1 and 12, and a day appropriate for the month. Solutions should properly handle leap
 years. Leap years are years that are either divisible by 400 or divisible by 4 but not divisible by 100.
-(Do not worry about days possibly lost in the conversion to the Gregorian calendar in the Late 1500s.)
-*)
+(Do not worry about days possibly lost in the conversion to the Gregorian calendar in the Late 1500s.) *)

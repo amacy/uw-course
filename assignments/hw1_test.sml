@@ -44,3 +44,21 @@ what_month(185) = 7;
 what_month(32) = 2;
 what_month(31) = 1;
 (* 10 *)
+month_range(185, 32) = [];
+month_range(31, 32) = [1, 2];
+month_range(31, 185) = [1, 2, 3, 4, 5, 6, 7];
+month_range(31, 31) = [1];
+(* 11 *)
+oldest([]) = NONE;
+oldest(four_dates) = SOME (1979, 2, 25);
+oldest(three_dates) = SOME (1984, 7, 4);
+(* 12 *) (*
+number_in_months_challenge(three_dates, []) = 0;
+number_in_months_challenge(four_dates, two_months) = 2;
+number_in_months_challenge(two_dates, two_months) = 1;
+number_in_months_challenge(three_dates, [7, 7]) = 3; 
+dates_in_months_challenge(four_dates, two_months) = [(1985, 5, 31), (1984, 7, 4)];
+dates_in_months_challenge(four_dates, []) = [];
+dates_in_months_challenge(three_dates, two_months) = three_dates;
+dates_in_months_challenge(two_dates, two_months) = [(1984, 7, 4)];
+dates_in_months_challenge(two_dates, [7, 7]) = [(1984, 7, 4)]; *)
