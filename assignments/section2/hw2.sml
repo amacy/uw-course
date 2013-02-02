@@ -49,8 +49,6 @@ fun similar_names(substitutions, full_name) =
     end
 
 (* 2 *)
-(* you may assume that Num is always used with values 2, 3, ..., 10
-   though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
 datatype rank = Jack | Queen | King | Ace | Num of int 
 type card = suit * rank
@@ -61,9 +59,31 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* 2a *)
-fun card_color(playing_card) =
-    case playing_card of
-	 (Clubs, _) => "Black"
-      | (Diamonds, _) => "Red"
-      | (Hearts, _) => "Red"
-      | (Spades, _) => "Black"
+fun card_color(card_suit, card_rank) =			   
+    case card_suit of
+	 Clubs => Black
+      | Diamonds => Red
+      | Hearts => Red
+      | Spades => Black
+
+(* 2b *)
+fun card_value(card_suit, card_rank) =
+    case card_rank of
+	Jack => 10
+      | Queen => 10 
+      | King => 10
+      | Ace => 11
+      | Num i => i 
+
+(* 2c *)
+fun remove_card(cs, c, e) =
+    let fun match_card(c1, c2) =
+	    c1 = c2
+	fun all_except_card(cs) =
+	    case cs of
+		[] => raise e
+    in
+	all_except_card(cs)
+    end
+	
+

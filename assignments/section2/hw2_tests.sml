@@ -28,11 +28,21 @@ similar_names([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]]
 					     {first="Freddie", last="Smith", middle="W"},
 					     {first="F", last="Smith", middle="W"}];
 (* 2a *)
-card_color(Clubs, Jack) = "Black";
-card_color(Diamonds, Jack) = "Red";
-card_color(Hearts, Jack) = "Red";
-card_color(Spades, Jack) = "Black";
+card_color(Clubs, Jack) = Black;
+card_color(Diamonds, Jack) = Red;
+card_color(Hearts, Jack) = Red;
+card_color(Spades, Jack) = Black;
 
+(* 2b *)
+card_value(Clubs, Jack) = 10;
+card_value(Clubs, Queen) = 10;
+card_value(Clubs, King) = 10;
+card_value(Clubs, Ace) = 11;
+card_value(Clubs, Num 7) = 7;
+
+(* 2c *)
+exception NoMatch
+remove_card([], (Clubs, Jack), NoMatch);
 
 (* These are just two tests for problem 2; you will want more.
 
