@@ -20,12 +20,19 @@ get_substitutions2([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred",
 "Fred") = ["Fredrick","Freddie","F"];
 get_substitutions2([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], 
 "Jeff") = ["Jeffrey","Geoff","Jeffrey"]; 
-(* 1d *)(*
+(* 1d *)
+similar_names([], {first="Fred", middle="W", last="Smith"}) = [{first="Fred", last="Smith", middle="W"}];
 similar_names([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]],
 {first="Fred", middle="W", last="Smith"}) = [{first="Fred", last="Smith", middle="W"},
 					     {first="Fredrick", last="Smith", middle="W"},
 					     {first="Freddie", last="Smith", middle="W"},
-					     {first="F", last="Smith", middle="W"}] *)
+					     {first="F", last="Smith", middle="W"}];
+(* 2a *)
+card_color(Clubs, Jack) = "Black";
+card_color(Diamonds, Jack) = "Red";
+card_color(Hearts, Jack) = "Red";
+card_color(Spades, Jack) = "Black";
+
 
 (* These are just two tests for problem 2; you will want more.
 
