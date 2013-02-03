@@ -11,7 +11,6 @@ fun all_except_option(a_string, string_list) =
     in
 	aux(string_list, [])
     end
-
 (* 1b *)
 fun get_substitutions1(substitutions, s) =
     case substitutions of
@@ -19,7 +18,6 @@ fun get_substitutions1(substitutions, s) =
       | list_of_names::substitutions' => case all_except_option(s, list_of_names) of
 					     NONE => [] @ get_substitutions1(substitutions', s)
 					   | SOME names => names @ get_substitutions1(substitutions', s)
-
 (* 1c *) 
 fun get_substitutions2(substitutions, s) =
     let fun aux(substitutions, acc) =
@@ -31,7 +29,6 @@ fun get_substitutions2(substitutions, s) =
     in
 	aux(substitutions, [])
     end 
-
 (* 1d *)
 fun similar_names(substitutions, full_name) =
     let fun replace_first_names(names) =
@@ -47,17 +44,13 @@ fun similar_names(substitutions, full_name) =
 	    [] => [full_name]
 	  | matched_names => [full_name] @ replace_first_names(matched_names)
     end
-
 (* 2 *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
 datatype rank = Jack | Queen | King | Ace | Num of int 
 type card = suit * rank
-
 datatype color = Red | Black
 datatype move = Discard of card | Draw 
-
 exception IllegalMove
-
 (* 2a *)
 fun card_color(card_suit, card_rank) =			   
     case card_suit of
@@ -65,7 +58,6 @@ fun card_color(card_suit, card_rank) =
       | Diamonds => Red
       | Hearts => Red
       | Spades => Black
-
 (* 2b *)
 fun card_value(card_suit, card_rank) =
     case card_rank of
@@ -74,16 +66,64 @@ fun card_value(card_suit, card_rank) =
       | King => 10
       | Ace => 11
       | Num i => i 
-
 (* 2c *)
+exception NoMatch
 fun remove_card(cs, c, e) =
-    let fun match_card(c1, c2) =
-	    c1 = c2
-	fun all_except_card(cs) =
+    let fun all_except_card(cs, acc) =
 	    case cs of
 		[] => raise e
+		   | card1::cs' => if card1 = c
+				   then acc @ cs'
+				   else all_except_card(cs', acc @ [card1])
     in
-	all_except_card(cs)
+	all_except_card(cs, [])
+    end	
+(* 2d *)
+fun all_same_color(cs) =
+    let fun compare_colors(card1, card2) =
+	    if card_color(card1) = card_color(card2)
+	    then true
+	    else false
+    in
+	case cs of
+	    [] => raise List.Empty
+	  | c1::[] => true
+	  | c1::(c2::cs')  => if compare_colors(c1, c2)
+			      then all_same_color(c2::cs')
+			      else false
     end
-	
-
+(* 2e *)
+fun sum_cards(cs) =
+    let fun aux(cards, acc) =
+	    case cards of
+		[] => 0 + acc
+	      | c::cs' => aux(cs', acc + card_value(c))
+    in
+	aux(cs, 0)
+    end
+(* 2f *)
+fun score(card_list, goal) =
+    let fun preliminary_score(cs, g) =
+		let val sum = sum_cards(cs);
+		in
+		    if sum > goal
+		    then (sum - goal) * 3
+		    else goal - sum
+		end
+    in
+	if all_same_color(card_list)
+	then preliminary_score(card_list, goal) div 2
+	else preliminary_score(card_list, goal)
+    end
+(* 2g *)
+fun officiate(card_list, move_list, goal) =
+    let fun game_status(cs, ms, held_cards) =
+	    case ms of
+		[] => score(cs, goal)
+	      | Discard c::held_cards' => game_status(cs, ms, held_cards')
+	      | Draw => case cs of
+			    [] => score(cs, goal)
+			  | c::cs' => game_status(cs', ms, held @ c)
+    in
+	game_status(card_list, move_list, [])
+    end
