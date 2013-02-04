@@ -70,8 +70,10 @@ score(four_cards, 50) = 5;
 score(four_more_cards, 0) = 120;
 score(four_more_cards, 50) = 10;
 
-(* 2g *)
-fun provided_test1 () = (* correct behhavior: raise IllegalMove *)
+(* 2g *) (*
+officiate(four_cards, [], 10) = score(four_cards, 10);
+officiate(four_cards, [Discard(Clubs, Queen)], 17) = score(three_cards, 17);
+fun provided_test1 () = (* correct behavior: raise IllegalMove *)
     let val cards = [(Clubs,Jack),(Spades,Num(8))]
 	val moves = [Draw,Discard(Hearts,Jack)]
     in
@@ -82,6 +84,6 @@ fun provided_test2 () = (* correct behavior: return 3 *)
 	val moves = [Draw,Draw,Draw,Draw,Draw]
     in
  	officiate(cards,moves,42)
-    end
-provided_test1();
-provided_test2() = 3;
+    end (*
+provided_test1(); 
+provided_test2() = 3; *) *)

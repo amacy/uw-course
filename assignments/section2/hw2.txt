@@ -115,17 +115,3 @@ fun score(card_list, goal) =
 	then preliminary_score(card_list, goal) div 2
 	else preliminary_score(card_list, goal)
     end
-(* 2g *)(*
-fun officiate(card_list, move_list, goal) =
-    let (* fun discard( *)
-	fun game_status(cs, ms, held_cards) =
-	    case ms of
-		[] => score(cs, goal)
-	      | Discard c :: ms' => case remove_card(cs, c, IllegalMove) of
-					held_cards' => game_status(cs, ms', held_cards')
-	     (* | Draw :: ms' => case cs of
-			    [] => score(cs, goal)
-				| c::cs' => game_status(cs', ms', held_cards @ c) *)
-    in
-	game_status(card_list, move_list, [])
-    end *)
