@@ -43,11 +43,17 @@ fun longest_string1 strings =
     List.foldl (fn (s1, s2) => if String.size s1 > String.size s2 then s1 else s2) "" strings
 (* 3 *)
 fun longest_string2 strings = 
-    List.foldl (fn (s1, s2) => if String.size s2 > String.size s1 then s2 else s1) "" strings
+    List.foldl (fn (s1, s2) => if String.size s1 >= String.size s2 then s1 else s2) "" strings
 (* 4 *) 
 fun longest_string_helper f (strings : string list) =
-    List.foldl (fn (s1, s2) => f) "" strings
-val longest_string3 = longest_string_helper
-val longest_string4 = longest_string_helper
-
-    
+    List.foldl (fn (s1, s2) => if f(String.size s1, String.size s2) then s1 else s2) "" strings
+val longest_string3 = longest_string_helper (fn (x, y) => x > y)
+val longest_string4 = longest_string_helper (fn (x, y) => x >= y)
+(* 5 *)
+val longest_capitalized =
+    longest_string1 o only_capitals
+(* 6 *)
+val rev_string =
+    String.implode o List.rev o String.explode
+(* 7 *)
+fun first_answer f1 f2 =
