@@ -27,3 +27,27 @@ longest_capitalized(["First", "Second", "Third"]) = "Second";
 (* 6 *)
 rev_string("test") = "tset";
 (* 7 *)
+(* verified that solution typechecks *)
+(* 8 *)
+(* verified that solution typechecks *)
+(* 9a *)
+val pattern1 = TupleP [Wildcard, Variable "var"];
+val pattern2 = TupleP [Wildcard, Wildcard];
+val pattern3 = TupleP([Wildcard, ConstructorP("a", Wildcard), Variable("z"), Wildcard]);
+count_wildcards(Wildcard) = 1; 
+count_wildcards(Variable("z")) = 0;
+count_wildcards(pattern1) = 1;
+count_wildcards(pattern2) = 2;
+count_wildcards(ConstructorP("a", Wildcard)) = 1;
+count_wildcards(pattern3) = 3;
+(* 9b *)
+count_wild_and_variable_lengths(Wildcard) = 1; 
+count_wild_and_variable_lengths(Variable("z")) = 1;
+count_wild_and_variable_lengths(pattern1) = 4;
+count_wild_and_variable_lengths(pattern2) = 2;
+count_wild_and_variable_lengths(ConstructorP("a", Wildcard)) = 1;
+count_wild_and_variable_lengths(pattern3) = 4;
+(* 9c *)
+count_some_var("test", Variable "test") = 1;
+count_some_var("test", Variable "zero") = 0;
+count_some_var("needle", TupleP[Variable "needle", TupleP[Variable "needle", Variable "othervar"], Wildcard, UnitP, ConstP 42]) = 2;
